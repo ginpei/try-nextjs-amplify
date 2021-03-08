@@ -1,1 +1,35 @@
-{}
+{
+  "auth": {
+    "trynextjsamplify079b4602": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
+  "api": {
+    "trynextjsamplify": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7,
+              "description": ""
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authtrynextjsamplify079b4602"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
