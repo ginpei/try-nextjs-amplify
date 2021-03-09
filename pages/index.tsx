@@ -59,13 +59,15 @@ function usePostList(): [Post[] | null, Error | null] {
       setPosts(newPosts);
     });
 
-    DataStore.observe(Post).subscribe((message) => {
+    const subscription = DataStore.observe(Post).subscribe((message) => {
       console.log("# message", message);
 
       DataStore.query(Post).then((newPosts) => {
         setPosts(newPosts);
       });
     });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return [posts, error];
