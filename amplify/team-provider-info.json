@@ -10,6 +10,11 @@
       "StackName": "amplify-trynextjsamplify-dev-161434",
       "StackId": "arn:aws:cloudformation:us-west-2:201044561444:stack/amplify-trynextjsamplify-dev-161434/3a62c380-7fa3-11eb-926d-0a347e4a10eb",
       "AmplifyAppId": "d1p5qpcm0f5exh"
+    },
+    "categories": {
+      "auth": {
+        "trynextjsamplifyd8773d40": {}
+      }
     }
   }
 }
