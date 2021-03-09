@@ -1,12 +1,5 @@
 {
-  "auth": {
-    "trynextjsamplify079b4602": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  },
+  "auth": {},
   "api": {
     "trynextjsamplify": {
       "service": "AppSync",
