@@ -7,9 +7,6 @@ export const onCreatePost = /* GraphQL */ `
     onCreatePost {
       id
       title
-      status
-      rating
-      content
       createdAt
       updatedAt
     }
@@ -20,9 +17,6 @@ export const onUpdatePost = /* GraphQL */ `
     onUpdatePost {
       id
       title
-      status
-      rating
-      content
       createdAt
       updatedAt
     }
@@ -33,9 +27,6 @@ export const onDeletePost = /* GraphQL */ `
     onDeletePost {
       id
       title
-      status
-      rating
-      content
       createdAt
       updatedAt
     }

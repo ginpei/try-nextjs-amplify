@@ -5,22 +5,10 @@
 export type CreatePostInput = {
   id?: string | null,
   title: string,
-  status: PostStatus,
-  rating?: number | null,
-  content?: string | null,
 };
-
-export enum PostStatus {
-  DRAFT = "DRAFT",
-  PUBLISHED = "PUBLISHED",
-}
-
 
 export type ModelPostConditionInput = {
   title?: ModelStringInput | null,
-  status?: ModelPostStatusInput | null,
-  rating?: ModelIntInput | null,
-  content?: ModelStringInput | null,
   and?: Array< ModelPostConditionInput | null > | null,
   or?: Array< ModelPostConditionInput | null > | null,
   not?: ModelPostConditionInput | null,
@@ -66,30 +54,10 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelPostStatusInput = {
-  eq?: PostStatus | null,
-  ne?: PostStatus | null,
-};
-
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
 export type Post = {
   __typename: "Post",
   id?: string,
   title?: string,
-  status?: PostStatus,
-  rating?: number | null,
-  content?: string | null,
   createdAt?: string,
   updatedAt?: string,
 };
@@ -97,9 +65,6 @@ export type Post = {
 export type UpdatePostInput = {
   id: string,
   title?: string | null,
-  status?: PostStatus | null,
-  rating?: number | null,
-  content?: string | null,
 };
 
 export type DeletePostInput = {
@@ -109,9 +74,6 @@ export type DeletePostInput = {
 export type ModelPostFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
-  status?: ModelPostStatusInput | null,
-  rating?: ModelIntInput | null,
-  content?: ModelStringInput | null,
   and?: Array< ModelPostFilterInput | null > | null,
   or?: Array< ModelPostFilterInput | null > | null,
   not?: ModelPostFilterInput | null,
@@ -149,9 +111,6 @@ export type CreatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -167,9 +126,6 @@ export type UpdatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -185,9 +141,6 @@ export type DeletePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -202,9 +155,6 @@ export type GetPostQuery = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -223,9 +173,6 @@ export type ListPostsQuery = {
       __typename: "Post",
       id: string,
       title: string,
-      status: PostStatus,
-      rating?: number | null,
-      content?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -238,9 +185,6 @@ export type OnCreatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -251,9 +195,6 @@ export type OnUpdatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -264,9 +205,6 @@ export type OnDeletePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
-    status: PostStatus,
-    rating?: number | null,
-    content?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
