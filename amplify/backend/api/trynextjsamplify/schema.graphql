@@ -1,5 +1,10 @@
-type Todo @model {
+type Post
+@model
+@auth(rules: [
+  { allow: owner },
+  { allow: public, operations: [read] }
+]) {
   id: ID!
-  name: String!
-  description: String
+  title: String!
+  content: String!
 }
