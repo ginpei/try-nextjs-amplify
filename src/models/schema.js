@@ -16,29 +16,6 @@ export const schema = {
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
-                },
-                "status": {
-                    "name": "status",
-                    "isArray": false,
-                    "type": {
-                        "enum": "PostStatus"
-                    },
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "rating": {
-                    "name": "rating",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "content": {
-                    "name": "content",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -51,15 +28,7 @@ export const schema = {
             ]
         }
     },
-    "enums": {
-        "PostStatus": {
-            "name": "PostStatus",
-            "values": [
-                "DRAFT",
-                "PUBLISHED"
-            ]
-        }
-    },
+    "enums": {},
     "nonModels": {},
-    "version": "f087d1f5d74b7051efc77f2da3e4cec0"
+    "version": "ca1c3d225ce7d2220da7da2f094312f0"
 };

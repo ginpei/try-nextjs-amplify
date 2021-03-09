@@ -1,7 +1,7 @@
 import { DataStore } from "aws-amplify";
 import { ReactElement, useEffect, useState } from "react";
 import { PostItem } from "../components/home/PostItem";
-import { Post, PostStatus } from "../src/models";
+import { Post } from "../src/models";
 
 export default function Home(): ReactElement {
   const [saving, setSaving] = useState(false);
@@ -18,7 +18,6 @@ export default function Home(): ReactElement {
 
     try {
       const post = new Post({
-        status: PostStatus.PUBLISHED,
         title,
       });
       await DataStore.save(post);
