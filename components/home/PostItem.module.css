@@ -1,0 +1,12 @@
+.container {
+  border: thin solid lightgray;
+  padding: 1rem;
+}
+
+.container + .container {
+  border-top-style: none;
+}
+
+.title {
+  font-weight: bold;
+}
