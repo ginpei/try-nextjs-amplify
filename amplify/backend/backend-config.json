@@ -1,4 +1,11 @@
 {
-  "auth": {},
+  "auth": {
+    "trynextjsamplifyd1f3f3dd": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
   "api": {}
 }
