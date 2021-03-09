@@ -19,10 +19,9 @@ export const PostItem: React.FC<{ post: Post }> = ({ post }) => {
 
     setSaving(true);
     try {
-      const newPost = Post.copyOf(post, (updated) => {
-        // eslint-disable-next-line no-param-reassign
-        updated.title = title;
-      });
+      const newPost = Post.copyOf(post, (updated) =>
+        Object.assign(updated, { title })
+      );
       await DataStore.save(newPost);
     } catch (error) {
       // eslint-disable-next-line no-console
