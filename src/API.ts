@@ -5,10 +5,12 @@
 export type CreatePostInput = {
   id?: string | null,
   title: string,
+  content: string,
 };
 
 export type ModelPostConditionInput = {
   title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
   and?: Array< ModelPostConditionInput | null > | null,
   or?: Array< ModelPostConditionInput | null > | null,
   not?: ModelPostConditionInput | null,
@@ -58,13 +60,16 @@ export type Post = {
   __typename: "Post",
   id?: string,
   title?: string,
+  content?: string,
   createdAt?: string,
   updatedAt?: string,
+  owner?: string | null,
 };
 
 export type UpdatePostInput = {
   id: string,
   title?: string | null,
+  content?: string | null,
 };
 
 export type DeletePostInput = {
@@ -74,6 +79,7 @@ export type DeletePostInput = {
 export type ModelPostFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
+  content?: ModelStringInput | null,
   and?: Array< ModelPostFilterInput | null > | null,
   or?: Array< ModelPostFilterInput | null > | null,
   not?: ModelPostFilterInput | null,
@@ -111,8 +117,10 @@ export type CreatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -126,8 +134,10 @@ export type UpdatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -141,8 +151,10 @@ export type DeletePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -155,8 +167,10 @@ export type GetPostQuery = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -173,11 +187,17 @@ export type ListPostsQuery = {
       __typename: "Post",
       id: string,
       title: string,
+      content: string,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
+};
+
+export type OnCreatePostSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnCreatePostSubscription = {
@@ -185,9 +205,15 @@ export type OnCreatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
+};
+
+export type OnUpdatePostSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnUpdatePostSubscription = {
@@ -195,9 +221,15 @@ export type OnUpdatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
+};
+
+export type OnDeletePostSubscriptionVariables = {
+  owner?: string | null,
 };
 
 export type OnDeletePostSubscription = {
@@ -205,7 +237,9 @@ export type OnDeletePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
+    content: string,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
