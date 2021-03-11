@@ -1,74 +1,117 @@
-import { DataStore } from "aws-amplify";
-import { ReactElement, useEffect, useState } from "react";
-import { PostItem } from "../components/home/PostItem";
-import { Post } from "../src/models";
+// pages/index.js
+import { AmplifyAuthenticator } from "@aws-amplify/ui-react";
+import { Amplify, API, Auth, withSSRContext } from "aws-amplify";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import { FormEventHandler, ReactElement } from "react";
+import { Post } from "../src/API";
+import awsExports from "../src/aws-exports";
+import { createPost } from "../src/graphql/mutations";
+import { listPosts } from "../src/graphql/queries";
+import styles from "../styles/Home.module.css";
 
-export default function Home(): ReactElement {
-  const [saving, setSaving] = useState(false);
-  const [posts] = usePostList();
+Amplify.configure({ ...awsExports, ssr: true });
 
-  const onCreateClick = async () => {
-    // eslint-disable-next-line no-alert
-    const title = window.prompt("Title", "Hello Amplify World!");
-    if (!title) {
-      return;
-    }
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const SSR = withSSRContext({ req });
+  const response = await SSR.API.graphql({ query: listPosts });
 
-    setSaving(true);
-
-    try {
-      const post = new Post({
-        title,
-      });
-      await DataStore.save(post);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    } finally {
-      setSaving(false);
-    }
+  return {
+    props: {
+      posts: response.data.listPosts.items,
+    },
   };
+};
 
+const handleCreatePost: FormEventHandler = async (event) => {
+  event.preventDefault();
+
+  if (!(event.target instanceof HTMLFormElement)) {
+    return;
+  }
+
+  const form = new FormData(event.target);
+
+  try {
+    const result = await API.graphql({
+      // Type '"AMAZON_COGNITO_USER_POOLS"' is not assignable to type 'GRAPHQL_AUTH_MODE | undefined'.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      authMode: "AMAZON_COGNITO_USER_POOLS" as any,
+      query: createPost,
+      variables: {
+        input: {
+          title: form.get("title"),
+          content: form.get("content"),
+        },
+      },
+    });
+
+    // Property 'data' does not exist on type 'GraphQLResult<object> | Observable<object>'.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data } = result as any;
+
+    window.location.href = `/posts/${data.createPost.id}`;
+  } catch ({ errors }) {
+    // eslint-disable-next-line no-console
+    console.error(...errors);
+    throw new Error(errors[0].message);
+  }
+};
+
+export default function Home({ posts = [] }: { posts: Post[] }): ReactElement {
   return (
-    <div className="ui-container">
-      <h1>Hoi World!</h1>
-      <p>
-        <button disabled={saving} onClick={onCreateClick}>
-          Create
-        </button>
-      </p>
-      {posts ? (
-        <div>
+    <div className={styles.container}>
+      <Head>
+        <title>Amplify + Next.js</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>Amplify + Next.js</h1>
+
+        <p className={styles.description}>
+          <code className={styles.code}>{posts.length}</code>
+          posts
+        </p>
+
+        <div className={styles.grid}>
           {posts.map((post) => (
-            <PostItem key={post.id} post={post} />
+            <a className={styles.card} href={`/posts/${post.id}`} key={post.id}>
+              <h3>{post.title}</h3>
+              <p>{post.content}</p>
+            </a>
           ))}
+
+          <div className={styles.card}>
+            <h3 className={styles.title}>New Post</h3>
+
+            <AmplifyAuthenticator>
+              <form onSubmit={handleCreatePost}>
+                <fieldset>
+                  <legend>Title</legend>
+                  <input
+                    defaultValue={`Today, ${new Date().toLocaleTimeString()}`}
+                    name="title"
+                  />
+                </fieldset>
+
+                <fieldset>
+                  <legend>Content</legend>
+                  <textarea
+                    defaultValue="I built an Amplify app with Next.js!"
+                    name="content"
+                  />
+                </fieldset>
+
+                <button>Create Post</button>
+                <button type="button" onClick={() => Auth.signOut()}>
+                  Sign out
+                </button>
+              </form>
+            </AmplifyAuthenticator>
+          </div>
         </div>
-      ) : (
-        <p>…</p>
-      )}
+      </main>
     </div>
   );
-}
-
-function usePostList(): [Post[] | null, Error | null] {
-  const [posts, setPosts] = useState<Post[] | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    DataStore.query(Post).then((newPosts) => {
-      setPosts(newPosts);
-    });
-
-    const subscription = DataStore.observe(Post).subscribe((message) => {
-      console.log("# message", message);
-
-      DataStore.query(Post).then((newPosts) => {
-        setPosts(newPosts);
-      });
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  return [posts, error];
 }
